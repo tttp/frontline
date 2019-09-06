@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<CaseType>
+  <name>Civil And Political</name>
+  <ActivityTypes>
+    <ActivityType>
+          <name>Open Case</name>
+          <max_instances>1</max_instances>
+    </ActivityType>
+    <ActivityType>
+          <name>Change Case Type</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Change Case Status</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Follow up</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Case Review</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Incoming Information</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Outgoing: Call to authority</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Outgoing: Campaigning</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Outgoing: Correspondence</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Outgoing: EU Office Action</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Outgoing: FL Urgent Action</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Outgoing: FL UA sent to Irish DFA</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Outgoing: Lobbying</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Outgoing: Media item / Press Release</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Update</name>
+    </ActivityType>
+    <ActivityType>
+          <name>EU response: Acknowledgement</name>
+    </ActivityType>
+    <ActivityType>
+          <name>EU response: Response Positive</name>
+    </ActivityType>
+    <ActivityType>
+          <name>EU response: Response Neutral</name>
+    </ActivityType>
+    <ActivityType>
+          <name>EU response: Response Negative</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Outcome: Positive solution</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Outcome: Positive solution: Released</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Outcome: Positive development</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Outcome: Neutral</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Outcome: Negative</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Response from government</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Response from Irish DFA: acknowledgement</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Response from Irish DFA: positive</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Response from Irish DFA: neutral</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Response from Irish DFA: negative</name>
+    </ActivityType>
+    <ActivityType>
+          <name>Other Feedback from HRD</name>
+    </ActivityType>
+    <ActivityType> 
+          <name>Trial Observation</name>
+    </ActivityType>
+    <ActivityType>
+          <name>UNSR action</name>
+    </ActivityType>
+  </ActivityTypes>
+  <ActivitySets>
+    <ActivitySet>
+      <name>standard_timeline</name>
+      <label>Standard Timeline</label>
+      <timeline>true</timeline>
+      <ActivityTypes>
+        <ActivityType>
+          <name>Open Case</name>
+          <status>Completed</status>
+        </ActivityType>
+        <ActivityType>
+          <name>Case Review</name>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>42</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+      </ActivityTypes>
+    </ActivitySet>
+  </ActivitySets>
+  <CaseRoles>
+    <RelationshipType>
+        <name>Case researcher</name>
+        <creator>1</creator>
+        <manager>1</manager>
+    </RelationshipType>
+ </CaseRoles>
+</CaseType>
