@@ -2,7 +2,7 @@
 <extension key="eu.tttp.frontline" type="module">
   <file>frontline</file>
   <name>Custom extension for frontline defenders</name>
-  <description>grant definitions</description>
+  <description>case type definitions and other specifics</description>
   <license>AGPL-3.0</license>
   <maintainer>
     <author>FIXME</author>
