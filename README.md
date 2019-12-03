@@ -1,5 +1,8 @@
 # eu.tttp.frontline
 
+# bugs: replace EUR by €
+
+
 ![Screenshot](/images/screenshot.png)
 
 (*FIXME: In one or two paragraphs, describe what the extension does and why one would download it. *)
