@@ -413,7 +413,7 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
         $region = ($region) ? $region : 'Unassigned';
         $grantStatistics['civicrm_worldregion_name']['title'] = ts('By Region');
         self::getStatistics($grantStatistics['civicrm_worldregion_name'], $region, $values,
-          $awardedGrants, $awardedGrantsAmount
+          $awardedGrants, $amountGranted
         );
       }
 
@@ -422,7 +422,7 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
         $country = ($country) ? $country : 'Unassigned';
         $grantStatistics['civicrm_address_country_id']['title'] = ts('By Country');
         self::getStatistics($grantStatistics['civicrm_address_country_id'], $country, $values,
-          $awardedGrants, $awardedGrantsAmount
+          $awardedGrants, $amontGranted
         );
       }
 
@@ -430,7 +430,7 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
         $grantStatistics['civicrm_contact_contact_type']['title'] = ts('By Contact Type');
         $title = "Total Number of {$type}(s)";
         self::getStatistics($grantStatistics['civicrm_contact_contact_type'], $title, $values,
-          $awardedGrants, $awardedGrantsAmount
+          $awardedGrants, $amountGranted
         );
       }
 
@@ -439,7 +439,7 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
         $genderLabel = ($genderLabel) ? $genderLabel : 'Unassigned';
         $grantStatistics['civicrm_contact_gender_id']['title'] = ts('By Gender');
         self::getStatistics($grantStatistics['civicrm_contact_gender_id'], $genderLabel, $values,
-          $awardedGrants, $awardedGrantsAmount
+          $awardedGrants, $amountGranted
         );
       }
 
@@ -452,7 +452,7 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
 
           $customData = ($customValue) ? FALSE : TRUE;
           self::getStatistics($grantStatistics[$customGroupTitle], $customFieldTitle, $values,
-            $awardedGrants, $awardedGrantsAmount, $customData
+            $awardedGrants, $amountGranted, $customData
           );
         }
       }
@@ -535,7 +535,7 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
     $awardedGrants, $awardedGrantsAmount, $customData = FALSE
   ) {
     if (!$awardedGrantsAmount) {
-      return;
+//      return;
     }
 
     $currency = $values['civicrm_grant_currency'];
