@@ -69,6 +69,11 @@ class CRM_Report_Form_Grant_Statistics extends CRM_Report_Form {
             'no_display' => TRUE,
             'required' => TRUE,
           ),
+          'amount_granted' =>
+          array(
+            'no_display' => TRUE,
+            'required' => TRUE,
+          ),
         ),
         'filters' => array(
           'application_received_date' => array(
@@ -386,7 +391,7 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
     $values = CRM_Core_DAO::executeQuery($grantAmountAwarded);
     while ($values->fetch()) {
       $awardedGrants = $values->count;
-      $awardedGrantsAmount = $values->totalAmount;
+      $requestedGrantsAmount = $values->totalAmount;
       $amountGranted = $values->grantedAmount;
     }
 
@@ -399,7 +404,7 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
         $grantType = CRM_Utils_Array::value($values['civicrm_grant_grant_type_id'], $grantTypes);
         $grantStatistics['civicrm_grant_grant_type_id']['title'] = ts('By Grant Type');
         self::getStatistics($grantStatistics['civicrm_grant_grant_type_id'], $grantType, $values,
-          $awardedGrants, $awardedGrantsAmount
+          $awardedGrants, $amountGranted
         );
       }
 
@@ -541,7 +546,8 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
       ) {
         $grantStatistics['value'][$fieldValue]['currency'][$currency]['value'] = 0;
       }
-      $grantStatistics['value'][$fieldValue]['currency'][$currency]['value'] += $values['civicrm_grant_amount_total'];
+
+      $grantStatistics['value'][$fieldValue]['currency'][$currency]['value'] += $values['civicrm_grant_amount_granted'];
       $grantStatistics['value'][$fieldValue]['currency'][$currency]['percentage'] = round(($grantStatistics['value'][$fieldValue]['currency'][$currency]['value'] /
           $awardedGrantsAmount) * 100);
       if (!isset($grantStatistics['value'][$fieldValue]['count'])) {
@@ -558,7 +564,7 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
       ) {
         $grantStatistics['value'][$fieldValue]['unassigned_currency'][$currency]['value'] = 0;
       }
-      $grantStatistics['value'][$fieldValue]['unassigned_currency'][$currency]['value'] += $values['civicrm_grant_amount_total'];
+      $grantStatistics['value'][$fieldValue]['unassigned_currency'][$currency]['value'] += $values['civicrm_grant_amount_granted'];
       $grantStatistics['value'][$fieldValue]['unassigned_currency'][$currency]['percentage'] = round(($grantStatistics['value'][$fieldValue]['unassigned_currency'][$currency]['value'] /
           $awardedGrantsAmount) * 100);
       $grantStatistics['value'][$fieldValue]['unassigned_count']++;
@@ -566,5 +572,4 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
           $awardedGrants) * 100);
     }
   }
-
 }
