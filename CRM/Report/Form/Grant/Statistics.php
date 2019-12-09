@@ -447,13 +447,50 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
         if (strstr($customField, 'civicrm_value_')) {
           $customFieldTitle = CRM_Utils_Array::value('title', $this->_columnHeaders[$customField]);
           $customGroupTitle = explode('_custom', strstr($customField, 'civicrm_value_'));
+          $customGroupName = $customGroupTitle[0];
+          $customFieldName = "custom".$customGroupTitle[1];
           $customGroupTitle = $this->_columns[$customGroupTitle[0]]['group_title'];
           $grantStatistics[$customGroupTitle]['title'] = ts('By %1', array(1 => $customGroupTitle));
+          //List of Expandable Types
+
+          $expandableTypes = array("Multi-Select", "Select", "AdvMulti-Select");
+          $fieldType = $this->_columns[$customGroupName]['fields'][$customFieldName]['htmlType'];
+          if (in_array($fieldType, $expandableTypes)) {
+            //Expand the custom dataset to show a breakdown by value.
+
+            //Set the group name
+            if(!array_key_exists($customFieldTitle, $grantStatistics)) {
+              $grantStatistics[$customFieldTitle]['title'] = ts('By %1 :: %2', array(1 => $customGroupTitle, 2 => $customFieldTitle));
+            }
+
+            //Parse the values into list
+            if($fieldType == "Select") {
+              $breakoutValues = array($customValue);
+            } else {
+              $breakoutValues= explode(CRM_Core_DAO::VALUE_SEPARATOR,
+                substr($customValue, 1, -1)
+              );
+            }
+
+            $customFieldId = str_replace("custom_", "", $customFieldName);
+
+            foreach($breakoutValues as $breakoutValue) {
+
+              //Lookup the label
+              $customValueTitle = $this->getCustomFieldBreakoutValueLabel($customFieldId, $breakoutValue);
+
+              self::getStatistics($grantStatistics[$customFieldTitle], $customValueTitle, $values,
+                $awardedGrants, $amountGranted, FALSE
+              );
+            }
+
+          } else {
 
           $customData = ($customValue) ? FALSE : TRUE;
           self::getStatistics($grantStatistics[$customGroupTitle], $customFieldTitle, $values,
             $awardedGrants, $amountGranted, $customData
           );
+          }
         }
       }
     }
@@ -520,6 +557,37 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
       }
       $rows = $row;
     }
+  }
+
+  function getCustomFieldBreakoutValueLabel($fieldId, $optionValue) {
+
+    if(!isset($this->breakoutValues)) {
+      $this->breakoutValues = array();
+    }
+
+    if(!array_key_exists($fieldId, $this->breakoutValues)) {
+      //First fetch the field
+      $optionGroupId = civicrm_api3('CustomField', 'getvalue', array(
+        'sequential' => 1,
+        'id' => $fieldId,
+        'return' => "option_group_id"
+      ));
+
+      //Now fetch the option Group.
+      $optionValues = civicrm_api3('OptionValue', 'get', array(
+        'sequential' => 1,
+        "return" => array("label","value"),
+        'option_group_id' => $optionGroupId,
+      ));
+
+      $this->breakoutValues[$fieldId] = array();
+
+      foreach($optionValues['values'] as $optionDetails) {
+        $this->breakoutValues[$fieldId][$optionDetails['value']] = $optionDetails['label'];
+      }
+    }
+
+    return (empty($this->breakoutValues[$fieldId][$optionValue])) ? "-- No Value Selected --" : $this->breakoutValues[$fieldId][$optionValue];
   }
 
   /**
