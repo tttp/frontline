@@ -1,4 +1,5 @@
 <style>
+{crmTitle title="Awarded grants"}
 {literal}
 .page-civicrm-dataviz #crm-container div.graph.dc-chart {float:none;}
 .page-civicrm-dataviz #crm-container div.dc-chart {margin:0;}
@@ -122,9 +123,10 @@ function drawTable(dom) {
     .columns(
 	[
 	    function (d) {return "<a href='"+CRM.url('civicrm/contact/view/grant',{'action':'view','reset':1,'cid':d.contact_id,'id':d.id})+"'>"+d.application_received_date+"</a>";}, 
-	    function (d) {return "<a href='"+CRM.url('civicrm/contact/view', {"reset": 1, "cid": d.contact_id})+"'>"+ (d.first_name || "?") + "</a>";}, 
+	    function (d) {return "<a href='"+CRM.url('civicrm/contact/view', {"reset": 1, "cid": d.contact_id})+"'>"+ ((d.first_name +" "+d.last_name) || "?") + "</a>";}, 
 	    function (d) {return statuses[d.status_id]}, 
 	    function (d) {return types[d.grant_type_id]}, 
+	    function (d) {return d.sub_type}, 
 	    function (d) {return d.money_transfer_date;}, 
 	    function (d) {return d.amount_granted }, 
 	]

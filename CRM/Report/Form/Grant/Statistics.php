@@ -478,7 +478,6 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
 
               //Lookup the label
               $customValueTitle = $this->getCustomFieldBreakoutValueLabel($customFieldId, $breakoutValue);
-
               self::getStatistics($grantStatistics[$customFieldTitle], $customValueTitle, $values,
                 $awardedGrants, $amountGranted, FALSE
               );
@@ -566,6 +565,7 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
     }
 
     if(!array_key_exists($fieldId, $this->breakoutValues)) {
+// needs id?    $optionValues = civicrm_api3('Grant', 'getoptions', ['field' => "custom_" . $fieldId,]);
       //First fetch the field
       $optionGroupId = civicrm_api3('CustomField', 'getvalue', array(
         'sequential' => 1,
@@ -578,6 +578,7 @@ SELECT COUNT({$this->_aliases['civicrm_grant']}.id) as count ,
         'sequential' => 1,
         "return" => array("label","value"),
         'option_group_id' => $optionGroupId,
+        'options' => ['limit' => 5000],
       ));
 
       $this->breakoutValues[$fieldId] = array();
