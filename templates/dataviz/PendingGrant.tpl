@@ -1,4 +1,4 @@
-{crmTitle string="Pending grants"}
+{crmTitle string="<span class='total'></span> pending grants"}
 <style>
 {literal}
 .page-civicrm-dataviz #crm-container div.graph.dc-chart {float:none;}
@@ -33,7 +33,6 @@ var countries={};
 {/literal}
 var data={crmSQL file="pendinggrant"};
 var regions={crmAPI entity='Country' action='getoptions' sequential=0 field="region_id"}.values;
-var regions={crmAPI entity='Country' action='getoptions' sequential=0 field="region_id"}.values;
 {php}
   $this->assign("param_options", ['limit' => 10000]);
 {/php}
@@ -63,7 +62,15 @@ function preProcess(){
 
 }
 
+function drawNumber() {
+  var group=ndx.groupAll();
+  return dc.numberDisplay(".total")
+   .group(group)
+   .valueAccessor(function(d) {return d})
+}
+
 function draw(){
+  graphs.total=drawNumber();
   graphs.table=drawTable("#table");
   graphs.type=drawType("#type .graph");
   graphs.date=drawDate("#date .graph");
@@ -109,8 +116,6 @@ function drawDate (dom) {
   var group = dim.group().reduceSum(function(d){return 1;});
   var minDate = dim.bottom(1)[0]["date"];
   var maxDate = dim.top(1)[0]["date"];
-console.log(minDate);
-console.log(minDate);
   var graph=dc.barChart(dom)
    .margins({top: 10, right: 10, bottom: 20, left:50})
     .height(120)
@@ -118,10 +123,10 @@ console.log(minDate);
     .dimension(dim)
     .group(group)
     .brushOn(true)
-    .x(d3.time.scale().domain([minDate, maxDate]))
+    .x(d3.time.scale().domain([minDate, maxDate]).nice(d3.time.month))
     .round(d3.time.day.round)
     .elasticY(true)
-    .xUnits(d3.time.days);
+    .xUnits(d3.time.months);
 
    graph.yAxis().ticks(3);
    graph.xAxis().ticks(5);
